@@ -1,3 +1,13 @@
+<?php
+
+
+$consulta = "SELECT * FROM categorias";
+
+$lista_categorias=mysqli_query($conectar, $consulta);
+
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -68,6 +78,19 @@
                             </div>
                             <div class="form-field col-lg-6 ">
                                 <input id="precio" name ="precio" class="input-text js-input" type="float" placeholder="Ingrese Precio" required>
+                                
+                            </div>
+                            <div class="form-field col-lg-6 ">
+                            <select id="categoria" class="input-text js-input" name="categoria"  placeholder="Ingrese Categoria" required >
+                                    <?php
+
+                                    while($dropd = mysqli_fetch_array($lista_categorias))
+                                    {?>
+                                    <option value="<?php echo $dropd['cod_categoria'];?>"><?php echo $dropd['cod_categoria'];?> </option>
+                                 
+                                    <?php }  ?>
+                                   
+                            </select>
                                 
                             </div>
                             <div class="form-field col-lg-12">

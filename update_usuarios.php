@@ -19,7 +19,7 @@ $dni = $_POST['dni'];
 // datos originales del usuario 
 $pass = $_SESSION['password'];
 $mail =$_SESSION['mail'];
-$cod_usuario =$_SESSION['cod_usuario'];
+$cod_usuario =$_SESSION['coduser'];
 
 
 
