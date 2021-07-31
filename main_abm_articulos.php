@@ -63,38 +63,33 @@ $lista_categorias=mysqli_query($conectar, $consulta);
                     <div class="container" >
                   
                         <h5 class="title" style="font-family: Open Sans; font-size: 30px;">Ingresar Artículo</h5>
-                        <form  class="contact-form row"  action="guardar_articulo.php" method="POST">
-                            <div class="form-field col-lg-4">
-                                <input id="codigo" name="codigo" class="input-text js-input" type="text" placeholder="Ingrese Codígo" required>
-                               
-                            </div>
+                        <form  class="contact-form row"  action="guardar_articulo.php" method="POST" enctype="multipart/form-data">
+                            
                             <div class="form-field col-lg-8">
                                 <input id="denom" name="denominacion" class="input-text js-input" type="text" placeholder="Ingrese Denominación" required>
                                
                             </div>
-                            <div class="form-field col-lg-12">
-                                <label for="art_img" class="mt-4">Seleccionar una imagen</label>
-                                
-                                <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-
-                                <input id="art_img" name="art_img" class="input-text js-input" type="file" placeholder="Ingrese Foto" accept ="image/*" required>
-                                
-                            </div>
+                           
+                           
                             <div class="form-field col-lg-4">
                                 <input id="precio" name ="precio" class="input-text js-input" type="float" placeholder="Ingrese Precio" required>
                                 
                             </div>
                             <div class="form-field col-lg-6">
-                            <select id="categoria" class="input-text js-input" name="categoria"  placeholder="Ingrese Categoria" required >
-                                    <?php
+                                <select id="categoria" class="input-text js-input" name="categoria"  placeholder="Ingrese Categoria" required >
+                                        <?php
 
-                                    while($dropd = mysqli_fetch_array($lista_categorias))
-                                    {?>
-                                    <option value="<?php echo $dropd['cod_categoria'];?>"><?php echo $dropd['nombre_categoria'];?> </option>
-                                 
-                                    <?php }  ?>
-                                   
-                            </select>
+                                        while($dropd = mysqli_fetch_array($lista_categorias))
+                                        {?>
+                                        <option value="<?php echo $dropd['cod_categoria'];?>"><?php echo $dropd['nombre_categoria'];?> </option>
+                                    
+                                        <?php }  ?>
+                                    
+                                </select>
+                                
+                            </div>
+                            <div class="form-field col-lg-6">
+                                <input id="stock" name ="stock" class="input-text js-input" type="number" placeholder="Ingrese Stock" required>
                                 
                             </div>
                             <div class="form-field col-lg-12">
@@ -102,8 +97,24 @@ $lista_categorias=mysqli_query($conectar, $consulta);
                                
                             </div>
                             <div class="form-field col-lg-12">
+                                <div id="file-preview-zone">
+                            </div>
+                            <div class="form-field col-lg-12">
+                                <label for="user_img" class="mt-4">Seleccionar imagen de usuario</label>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
+                                <input type="file" name="user_img" id="user_img" class="form-control-file my-2 " accept="image/*" required>
+                            
+                            </div>
+                           
+                            <div class="form-field col-lg-12">
                                 <input class="submit-btn" type="submit" value="GRABAR">
                             </div>
+                            <span class='error'><?php if (isset($_GET['err'])) {
+                                    echo "Error al Grabar el Artículo";
+                            }?></span>
+                             <span class='grabar'><?php if (isset($_GET['grab'])) {
+                                    echo "El Artículo se grabo correctamente";
+                            }?></span>
                         </form>
                    
                     </div>
@@ -112,6 +123,35 @@ $lista_categorias=mysqli_query($conectar, $consulta);
 
 
         </main><!-- End #main -->
+
+        <script>
+            function readFile(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+        
+                    reader.onload = function (e) {
+                        var filePreview = document.createElement('img');
+                        filePreview.id = 'file-preview';
+                        //e.target.result contents the base64 data from the image uploaded
+                        filePreview.src = e.target.result;
+                        //console.log(e.target.result);
+                        filePreview.width ='300'
+                        filePreview.heigth ='300'
+        
+                        var previewZone = document.getElementById('file-preview-zone');
+                        previewZone.appendChild(filePreview);
+                    }
+        
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        
+            var fileUpload = document.getElementById('user_img');
+            fileUpload.onchange = function (e) {
+                readFile(e.srcElement);
+            }
+ 
+        </script>   
 
     </body>
 
