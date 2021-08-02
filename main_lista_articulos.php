@@ -1,7 +1,7 @@
 <?php
 
 
-$consulta = "SELECT * FROM articulos";
+$consulta = "SELECT * FROM articulos ORDER BY VIGENTE desc";
 
 $lista_articulos = mysqli_query($conectar, $consulta);
 
@@ -39,6 +39,8 @@ $lista_articulos = mysqli_query($conectar, $consulta);
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!------ Include the above in your HEAD tag ---------->
 
 </head>
@@ -69,18 +71,18 @@ $lista_articulos = mysqli_query($conectar, $consulta);
                             Foto
                             </th>
                             <th>
-                            Cod.Artículo
+                            Codígo
                             </th> 
                             <th>
                             Denominación
                             </th> 
                             <th>
+                            Cod.
+                            </th> 
+                            <th>
                             Categoria
                             </th> 
-                            <th>
-                            Direccion
-                            </th> 
-                            <th>
+                             <th>
                             Descripción
                             </th> 
                             <th>
@@ -89,6 +91,12 @@ $lista_articulos = mysqli_query($conectar, $consulta);
                             <th>
                             Stock
                             </th>
+                            <th>
+                            Vigente
+                            </th>
+                            <th>
+                            Modificar
+                            </th> 
                             <th>
                             Eliminar
                             </th> 
@@ -100,17 +108,34 @@ $lista_articulos = mysqli_query($conectar, $consulta);
                         
                             <?php
 
-                             while($tabla = mysqli_fetch_array($listado))
+                             while($tabla = mysqli_fetch_array($lista_articulos))
                             {?>
 
                                 <tr>
-                                    <td><?php echo $tabla['id_tutor'];?></td>
-                                    <td><?php echo $tabla['nombre_tutor'];?></td>
-                                    <td><?php echo $tabla['dni'];?></td>
-                                    <td><?php echo $tabla['apellido_tutor'];?></td>
-                                    <td><a href="modificar.php?id=<?php echo $tabla['id_usuario'];?>"><i class="fas fa-pencil-alt"></i></a></td>
+                                    <td> <img src="<?php echo $tabla['foto_articulo'];?>" width="100" height="100" alt="img_articulo...">  </td>
+                                    <td><?php echo $tabla['cod_articulo'];?></td>
+                                    <td><?php echo $tabla['denom_articulo'];?></td>
+                                    
+                                    <?php
+                                        $categoria = $tabla['cod_categoria'];
+                                        // consulta de denominacion de categoria
+                                        $consulta = "SELECT * FROM categorias where cod_categoria =$categoria";
+
+                                        $consulta_categoria = mysqli_query($conectar, $consulta);
+                                        $categ_sql = mysqli_fetch_array($consulta_categoria);
+                                         
+                                    ?>
+
+                                    <td><?php echo $tabla['cod_categoria'];?></td>
+                                    <td><?php echo$categ_sql['nombre_categoria'];?></td>
+                                    
+                                    <td><?php echo $tabla['descripcion'];?></td>
+                                    <td><?php echo $tabla['precio_unitario'];?></td>
+                                    <td><?php echo $tabla['stock'];?></td>
+                                    <td><?php echo $tabla['vigente'];?></td>
+                                    <td><a href="modifica_articulos.php?cod_articulo=<?php echo $tabla['cod_articulo'];?>"><i class="fas fa-pencil-alt"></i></a></td>
                                 
-                                    <td><a href="eliminar.php?id=<?php echo $tabla['id_usuario'];?>"><i class="fas fa-trash-alt"></i></a></td>
+                                    <td><a href="eliminar_articulos.php?cod_articulo=<?php echo $tabla['cod_articulo'];?>"><i class="fas fa-trash-alt"></i></a></td>
                             
                                 
                                 </tr>
@@ -126,7 +151,8 @@ $lista_articulos = mysqli_query($conectar, $consulta);
 
         </main><!-- End #main -->
 
-        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> 
     </body>
 
 </html>

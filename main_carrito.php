@@ -1,4 +1,17 @@
 
+<?php
+
+
+$id_sesion= session_id();
+$nro_carrito = $_GET['nro_carrito'];
+$consulta = "SELECT * FROM carrito_temporal where nro_carrito=$nro_carrito ";
+
+$lista_carrito=mysqli_query($conectar, $consulta);
+
+
+?>
+
+
  
  <!DOCTYPE html>
 <html lang="es">
@@ -47,46 +60,64 @@
               <div class="box">
                 <form method="post" action="checkout1.html">
                   <h1>Carrito de Compras</h1>
-                  <p class="text-muted">poner cantidad de items con php o js</p>
+                  <p class="text-muted">Detalle de Artículos Comprados</p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th colspan="2">Productos</th>
+                          <th >Productos</th>
+                          <th ></th>
+                          <th ></th>
                           <th>Cantidad</th>
                           <th>Precio Unitario</th>
-                          <th>Descuento</th>
-                          <th colspan="2">Total</th>
+                          <th>Total Item</th>
+                          <th>Eliminar Item</th>
+                          
                         </tr>
                       </thead>
                       <tbody>
+                      <?php
+
+                         while($tabla = mysqli_fetch_array($lista_carrito))
+                      {?>
                         <tr>
-                          <td><a href="#"><img src="img/detailsquare.jpg" alt="White Blouse Armani"></a></td>
-                          <td><a href="#">Ingresar items con while de php</a></td>
-                          <td>
-                            <input type="number" value="2" class="form-control">
-                          </td>
-                          <td>$123.00</td>
-                          <td>$0.00</td>
-                          <td>$246.00</td>
-                          <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+
+                            <?php
+                              $cod_articulo = $tabla['cod_articulo'];
+                              // consulta de denominacion de categoria
+                               $consulta = "SELECT * FROM articulos where cod_articulo =$cod_articulo";
+
+                              $consulta_articulos = mysqli_query($conectar, $consulta);
+                              $tabla_articulos= mysqli_fetch_array($consulta_articulos);
+
+                            ?>
+
+                            <td><a ><img src="<?php echo $tabla_articulos['foto_articulo'];?>" alt="Foto_articulo..."></a></td>
+                            <td><a ><?php echo $tabla_articulos['cod_articulo'];?></a></td>
+                            <td><a ><?php echo $tabla_articulos['denom_articulo'];?></a></td>
+                            <td><a ><?php echo $tabla['cantidad'];?></a></td>
+                            
+                            <td><?php echo "$"; echo $tabla_articulos['precio_unitario'];?></td>
+                            <td><?php echo "$"; echo ($tabla_articulos['precio_unitario'] * $tabla['cantidad']);?></td>
+                           
+                            <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
-                        <tr>
-                          <td><a href="#"><img src="img/basketsquare.jpg" alt="Black Blouse Armani"></a></td>
-                          <td><a href="#">Black Blouse Armani</a></td>
-                          <td>
-                            <input type="number" value="1" class="form-control">
-                          </td>
-                          <td>$200.00</td>
-                          <td>$0.00</td>
-                          <td>$200.00</td>
-                          <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
-                        </tr>
+                      <?php } ?>
                       </tbody>
                       <tfoot>
                         <tr>
+                        <?php
+                        // VAMOS A LEVANTAR PARA EL CARRITO, LA SUMA DE LOS PRECIOS UNITARIOS POR LA SUMA DE LA CANTIDAD 
+                              
+                              // consulta de denominacion de categoria
+                               $consulta_sql = "SELECT (SUM(articulos.precio_unitario * carrito_temporal.cantidad)) as total from carrito_temporal,articulos where carrito_Temporal.cod_articulo = articulos.cod_articulo and carrito_temporal.nro_carrito =$nro_carrito ";
+
+                              $consulta_total = mysqli_query($conectar, $consulta_sql);
+                              $tabla_total= mysqli_fetch_array($consulta_total);
+
+                            ?>
                           <th colspan="5">Total</th>
-                          <th colspan="2">$446.00</th>
+                          <th colspan="2"><?php echo "$"; echo $tabla_total['total']; ?></th>
                         </tr>
                       </tfoot>
                     </table>
@@ -96,7 +127,7 @@
                     <div class="left"><a href="category.html" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Continuar Comprando</a></div>
                     <div class="right">
                       <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Actualización de la Compra</button>
-                      <button style=" background-color: #53b124;  border-color: #53b124;" type="submit" class="btn btn-primary">Pasar por la CAJA <i class="fa fa-chevron-right"></i></button>
+                      <button style=" background-color: #53b124;  border-color: #53b124;" type="submit" class="btn btn-primary">Enviar Pedido <i class="fa fa-chevron-right"></i></button>
                     </div>
                   </div>
                 </form>
@@ -167,8 +198,9 @@
                     <tbody>
                      
                       <tr class="total">
+                    
                         <td>Total de la Orden</td>
-                        <th>$456.00</th>
+                        <th><?php echo "$"; echo $tabla_total['total'];  ?></th>
                       </tr>
                     </tbody>
                   </table>

@@ -1,5 +1,26 @@
 <?php
 
+// levantamos con get, el codigo de articulo para levantar los datos del articulo 
+
+$cod_articulo_Get = (int) $_GET['cod_articulo'];
+
+
+$sql_datos_art ="SELECT * FROM articulos where cod_articulo =$cod_articulo_Get";
+
+$consulta_datos_art = mysqli_query($conectar,$sql_datos_art );
+
+$lista_datos_art = mysqli_fetch_array($consulta_datos_art);
+
+$denom_articulo = $lista_datos_art['denom_articulo'];
+$precio_unitario = (float) $lista_datos_art['precio_unitario'];
+$cod_categoria =(int) $lista_datos_art['cod_categoria'];
+$stock = (int) $lista_datos_art['stock'];
+$descripcion = $lista_datos_art['descripcion'];
+$foto_articulo = $lista_datos_art['foto_articulo'];
+$vigente = $lista_datos_art['vigente'];
+
+
+//levanta categorias
 
 $consulta = "SELECT * FROM categorias";
 
@@ -62,26 +83,34 @@ $lista_categorias=mysqli_query($conectar, $consulta);
                  <section class="get-in-touch">  
                     <div class="container" >
                   
-                        <h5 class="title" style="font-family: Open Sans; font-size: 30px;">Ingresar Artículo</h5>
-                        <form  class="contact-form row"  action="guardar_articulo.php" method="POST" enctype="multipart/form-data">
+                        <h5 class="title" style="font-family: Open Sans; font-size: 30px;">Modificar Artículo</h5>
+                        <form  class="contact-form row"  action="update_articulos.php?cod_articulo=<?php echo $cod_articulo_Get;?>&foto_articulo=<?php echo $foto_articulo;?>" method="POST" enctype="multipart/form-data">
                             
-                            <div class="form-field col-lg-8">
-                                <input id="denom" name="denominacion" class="input-text js-input" type="text" placeholder="Ingrese Denominación" required>
+                            <div class="form-field col-lg-10">
+                                <input id="denom" name="denominacion" class="input-text js-input" type="text" value="<?php echo $denom_articulo;?>"  required>
+                               
+                            </div>
+                            <div class="form-field col-lg-2">
+                            <select id="vigente" class="input-text js-input" name="vigente"  value=<?php echo $vigente;?> required >
+                                 <option value="S">SI</option>
+                                 <option value="N">NO</option>
+                            </select>
                                
                             </div>
                            
                            
                             <div class="form-field col-lg-4">
-                                <input id="precio" name ="precio" class="input-text js-input" type="float" placeholder="Ingrese Precio" required>
+                                <input id="precio" name ="precio" class="input-text js-input" type="float" value="<?php echo $precio_unitario;?>" required>
                                 
                             </div>
-                            <div class="form-field col-lg-6">
-                                <select id="categoria" class="input-text js-input" name="categoria"  placeholder="Ingrese Categoria" required >
+                            <div class="form-field col-lg-8">
+                                <select id="categoria" class="input-text js-input" name="categoria"  options="<?php echo $cod_categoria;?>"  required >
+                               
                                         <?php
 
                                         while($dropd = mysqli_fetch_array($lista_categorias))
                                         {?>
-                                        <option value="<?php echo $dropd['cod_categoria'];?>"><?php echo $dropd['nombre_categoria'];?> </option>
+                                        <option value="<?php echo $dropd['cod_categoria'];?>" <?php if($dropd['cod_categoria'] == $cod_categoria ){ echo "selected='selected'"; }  ?>  > <?php echo $dropd['nombre_categoria'];?> </option>
                                     
                                         <?php }  ?>
                                     
@@ -89,20 +118,20 @@ $lista_categorias=mysqli_query($conectar, $consulta);
                                 
                             </div>
                             <div class="form-field col-lg-6">
-                                <input id="stock" name ="stock" class="input-text js-input" type="number" placeholder="Ingrese Stock" required>
+                                <input id="stock" name ="stock" class="input-text js-input" type="number" value=<?php echo $stock;?> required>
                                 
                             </div>
                             <div class="form-field col-lg-12">
-                                <input id="message" name="descripcion" class="input-text js-input" type="text" placeholder="Ingrese Descripción" required>
+                                <input id="message" name="descripcion" class="input-text js-input" type="text" value="<?php echo $descripcion;?>" required>
                                
                             </div>
                             <div class="form-field col-lg-12">
-                                <div id="file-preview-zone">
+                                <div id="file-preview-zone"><img src="<?php echo $foto_articulo;?>" alt="img_articulo..." width="300" heigth ="300"></div>
                             </div>
                             <div class="form-field col-lg-12">
-                                <label for="user_img" class="mt-4">Seleccionar imagen de Artículo</label>
+                                <label for="user_img" class="mt-4">Cambiar imagen de Artículo</label>
                                 <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-                                <input type="file" name="user_img" id="user_img" class="form-control-file my-2 " accept="image/*" required>
+                                <input type="file" name="user_img" id="user_img" class="form-control-file my-2 " accept="image/*" value="<?php echo $foto_articulo;?>" >
                             
                             </div>
                            
@@ -110,10 +139,10 @@ $lista_categorias=mysqli_query($conectar, $consulta);
                                 <input class="submit-btn" type="submit" value="GRABAR">
                             </div>
                             <span class='error'><?php if (isset($_GET['err'])) {
-                                    echo "Error al Grabar el Artículo";
+                                    echo "Error actualizando el Artículo";
                             }?></span>
                              <span class='grabar'><?php if (isset($_GET['grab'])) {
-                                    echo "El Artículo se grabo correctamente";
+                                    echo "El Artículo se Actualizo correctamente";
                             }?></span>
                         </form>
                    

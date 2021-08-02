@@ -3,7 +3,7 @@
 // LEVANTO LA CATEGORIA QUE SE PASA POR LINK 
 $id_categoria = $_GET['cod_categoria'];
 
-$sql = "SELECT * FROM articulos WHERE cod_categoria= '$id_categoria'";
+$sql = "SELECT * FROM articulos WHERE cod_categoria= '$id_categoria' and vigente ='S'";
 
 $listado = mysqli_query($conectar, $sql);
 
@@ -94,11 +94,11 @@ $listado = mysqli_query($conectar, $sql);
                       </div>
                     </div><a href="#" class="invisible"><img src=<?php echo $tabla['foto_articulo'];?>alt="" class="img-fluid"></a>
                     <div class="text">
-                      <h3><a style="font-family: Open Sans; font-size: 20px;" href="#"><?php echo $tabla['cod_articulo']; echo " - " ;echo $tabla['denom_articulo']; ?></a></h3>
+                      <h3><a style="font-family: Open Sans; font-size: 20px;" href="#"><?php echo "Artículo:  "; echo $tabla['cod_articulo']; echo " - " ;echo $tabla['denom_articulo']; ?></a></h3>
                       <p class="price"> 
-                        <del></del><?php echo $tabla['precio_unitario'];?>
+                        <del></del><?php echo "Precio $"; echo $tabla['precio_unitario'];?>
                       </p>
-                      <p class="buttons"><a href="#" class="btn btn-outline-secondary">ver Detalles</a><a style=" background-color: #53b124;  border-color: #53b124;" href="carrito.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Agregar a Carrito</a></p>
+                      <p class="buttons"><a class="btn btn-outline-secondary">Disponibles: <?php echo $tabla['stock']; ?> </a><a style=" background-color: #53b124;  border-color: #53b124;" href="graba_carrito.php?cod_articulo=<?php echo $tabla['cod_articulo'] ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Agregar a Carrito</a></p>
                     </div>
                     <!-- /.text-->
                   </div>

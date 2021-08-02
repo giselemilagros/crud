@@ -63,7 +63,7 @@
                                 <a style=" background-color: #53b124;  border-color: #53b124; color: #fff;" class="nav-link active" href="abm_articulos.php">Nuevo Artículo</a> <br>
                             </li>
                             <li class="nav-item">
-                                <a style=" background-color: #53b124;  border-color: #53b124; color: #fff;" class="nav-link active" href="listado_articulos.php">Listado Artículos</a> <br>
+                                <a style=" background-color: #53b124;  border-color: #53b124; color: #fff;" class="nav-link active" href="lista_articulos.php">Listado Artículos</a> <br>
                             </li>
                             
                             <li class="nav-item">
