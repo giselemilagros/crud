@@ -107,7 +107,7 @@ if($usuario =="ADMINISTRADOR"){
         
         <li><a class="nav-link scrollto active" href=<?php echo $hrefindex; ?> >Inicio</a></li>
       
-        <li class="dropdown"><a href="muestra_Categorias.php"><span>Productos</span> <i class="bi bi-chevron-down"></i></a>
+        <li class="dropdown"><a href="muestra_categorias.php"><span>Productos</span> <i class="bi bi-chevron-down"></i></a>
           <ul>
             <!--trae de la base todas las categorias-->
           <?php

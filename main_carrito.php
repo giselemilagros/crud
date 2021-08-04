@@ -100,7 +100,7 @@ $lista_carrito=mysqli_query($conectar, $consulta);
                             <td><?php echo "$"; echo $tabla_articulos['precio_unitario'];?></td>
                             <td><?php echo "$"; echo ($tabla_articulos['precio_unitario'] * $tabla['cantidad']);?></td>
                            
-                            <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a href="eliminar_item_carrito.php?nro_carrito=<?php echo $tabla['nro_carrito'];?>&cod_articulo=<?php echo $tabla['cod_articulo']?>"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                       <?php } ?>
                       </tbody>

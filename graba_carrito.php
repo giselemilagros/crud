@@ -68,7 +68,7 @@ function InsertaEnCarrito($nro_carr,$cod_art,$cant,$tamanioart){
      if($conecta_insert_carrito){
          header("Location: carrito.php?nro_carrito=$nro_carr");
      }else{ //si no inserto 
-         header("Location: muestra_Categorias.php?errNoInsertoCarrito1");
+         header("Location: muestra_categorias.php?errNoInsertoCarrito1");
      }
 }
 function  YaExisteArt($nro_carr,$cod_art){
@@ -98,7 +98,7 @@ function UpdateEnCarrito($nro_carr,$cod_art){
     if ($conecta_sql_update){
         header("Location: carrito.php?nro_carrito=$nro_carr");
     }else {
-        header("Location: muestra_Categorias.php?errUpdatecarrito1");
+        header("Location: muestra_categorias.php?errUpdatecarrito1");
     }
 
 }
@@ -118,7 +118,7 @@ function ProximoNroCarrito(){
         }
 
     }else {
-        header("Location: muestra_Categorias.php?errselectNroCarrito");
+        header("Location: muestra_categorias.php?errselectNroCarrito");
     }
     return $nro_carrito ; 
 }
@@ -232,7 +232,7 @@ if ($resultado['contar'] == 1){
                 if ($conecta_sql_update){
                     header("Location: carrito.php?nro_carrito=$nro_carrito");
                 }else {
-                    header("Location: muestra_Categorias.php?errUpdatecarrito1");
+                    header("Location: muestra_categorias.php?errUpdatecarrito1");
                 }
 
            }else{
@@ -245,7 +245,7 @@ if ($resultado['contar'] == 1){
                     if($conecta_insert_carrito){
                         header("Location: carrito.php?nro_carrito=$nro_carrito");
                     }else{ //si no inserto 
-                        header("Location: muestra_Categorias.php?errNoInsertoCarrito1");
+                        header("Location: muestra_categorias.php?errNoInsertoCarrito1");
                     }
            }
 
@@ -253,11 +253,11 @@ if ($resultado['contar'] == 1){
         }
         else{
             // tengo que volver y decirle que no se puede agregar ese item por falta de stock 
-            header("Location:muestra_Categorias.php?noalcanzastock");
+            header("Location:muestra_categorias.php?noalcanzastock");
         }
     }
     else {
-        header("Location: muestra_Categorias.php?nohaystock1");
+        header("Location: muestra_categorias.php?nohaystock1");
     }
 
 
@@ -280,7 +280,7 @@ else {
         }
 
     }else {
-        header("Location: muestra_Categorias.php?errselectNroCarrito");
+        header("Location: muestra_categorias.php?errselectNroCarrito");
     }
     // insertamos en la tabla el nuevo nro de carrito y la sesion 
 
@@ -344,20 +344,20 @@ else {
                if($conecta_insert_carrito){
                    header("Location: carrito.php?nro_carrito=$nro_carrito");
                }else{ //si no inserto 
-                   header("Location: muestra_Categorias.php?errNoInsertoCarrito1");
+                   header("Location: muestra_categorias.php?errNoInsertoCarrito1");
                }
             }
             else{
                 // tengo que volver y decirle que no se puede agregar ese item por falta de stock 
-                header("Location:  muestra_Categorias.php?errnoalcanzastock");
+                header("Location:  muestra_categorias.php?errnoalcanzastock");
             }
         }else {
-            header("Location:  muestra_Categorias.php?errnohaystock");
+            header("Location:  muestra_categorias.php?errnohaystock");
         }
 
     }
     else {
-        header("Location:  muestra_Categorias.php?err2");
+        header("Location:  muestra_categorias.php?err2");
     }
 
 
